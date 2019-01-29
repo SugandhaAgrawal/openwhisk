@@ -217,6 +217,9 @@ class ShardingContainerPoolBalancer(
       HEALTHY_INVOKER_MANAGED,
       schedulingState.managedInvokers.count(_.status == Healthy))
     MetricEmitter.emitHistogramMetric(
+      HEALTHY_INVOKER_MANAGED_TRIAL,
+      schedulingState.managedInvokers.count(_.status == Healthy))
+    MetricEmitter.emitHistogramMetric(
       UNHEALTHY_INVOKER_MANAGED,
       schedulingState.managedInvokers.count(_.status == Unhealthy))
     MetricEmitter.emitHistogramMetric(

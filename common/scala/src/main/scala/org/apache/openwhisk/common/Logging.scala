@@ -315,6 +315,7 @@ object LoggingMarkers {
   val error = "error"
   val count = "count"
   val timeout = "timeout"
+  val trial = "trial"
 
   private val controller = "controller"
   private val invoker = "invoker"
@@ -388,6 +389,7 @@ object LoggingMarkers {
   val INVOKER_TOTALMEM_MANAGED = LogMarkerToken(loadbalancer, "totalCapacityManaged", count)
 
   val HEALTHY_INVOKER_MANAGED = LogMarkerToken(loadbalancer, "totalHealthyInvokerManaged", count)
+  val HEALTHY_INVOKER_MANAGED_TRIAL = LogMarkerToken(loadbalancer, "totalHealthyInvokerManaged", trial)
   val UNHEALTHY_INVOKER_MANAGED = LogMarkerToken(loadbalancer, "totalUnhealthyInvokerManaged", count)
   val UNRESPONSIVE_INVOKER_MANAGED = LogMarkerToken(loadbalancer, "totalUnresponsiveInvokerManaged", count)
   val OFFLINE_INVOKER_MANAGED = LogMarkerToken(loadbalancer, "totalOfflineInvokerManaged", count)
