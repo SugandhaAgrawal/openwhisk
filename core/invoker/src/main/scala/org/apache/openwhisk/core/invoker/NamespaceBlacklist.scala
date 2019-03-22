@@ -38,6 +38,9 @@ class NamespaceBlacklist(authStore: AuthStore) {
 
   private var blacklist: Set[String] = Set.empty
 
+  // Enforced by couchdb, max limit value for db view query
+  private var couchdb_limit: Int = 268435456
+
   /**
    * Check if the identity, who invoked the activation is in the blacklist.
    *
@@ -54,7 +57,7 @@ class NamespaceBlacklist(authStore: AuthStore) {
         startKey = List.empty,
         endKey = List.empty,
         skip = 0,
-        limit = Int.MaxValue,
+        limit = couchdb_limit,
         includeDocs = false,
         descending = true,
         reduce = false,
