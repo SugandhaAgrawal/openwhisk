@@ -210,6 +210,7 @@ abstract class CommonLoadBalancer(config: WhiskConfig,
     // is received (because the slot in the invoker is not yet free for new activations).
     activationPromises.remove(aid).foreach(_.trySuccess(response))
     logging.info(this, s"received result ack for '$aid'")(tid)
+    MetricEmitter.emitCounterMetric(LoggingMarkers.LOADBALANCER_RESULT_ACK)
   }
 
   protected def releaseInvoker(invoker: InvokerInstanceId, entry: ActivationEntry)
@@ -222,6 +223,7 @@ abstract class CommonLoadBalancer(config: WhiskConfig,
                                                 invoker: InvokerInstanceId): Unit = {
 
     val invocationResult = if (forced) {
+      MetricEmitter.emitCounterMetric(LoggingMarkers.LOADBALANCER_FORCED_ACK)
       InvocationFinishedResult.Timeout
     } else {
       // If the response contains a system error, report that, otherwise report Success
@@ -229,6 +231,7 @@ abstract class CommonLoadBalancer(config: WhiskConfig,
       if (isSystemError) {
         InvocationFinishedResult.SystemError
       } else {
+        MetricEmitter.emitCounterMetric(LoggingMarkers.LOADBALANCER_COMPLETION_ACK)
         InvocationFinishedResult.Success
       }
     }

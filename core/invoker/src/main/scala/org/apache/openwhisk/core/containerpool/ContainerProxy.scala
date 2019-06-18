@@ -738,9 +738,9 @@ object ContainerProxy {
         // component - however, because the trace of activations is recorded in the parent
         // sequence, a client can determine the queue time for sequences that way
         val end = initInterval.map(_.start).getOrElse(totalInterval.start)
-        Parameters(
-          WhiskActivation.waitTimeAnnotation,
-          Interval(job.msg.transid.meta.start, end).duration.toMillis.toJson)
+        val waitTime = Interval(job.msg.transid.meta.start, end).duration.toMillis
+        LoggingMarkers.INVOKER_WAIT_TIME(waitTime)
+        Parameters(WhiskActivation.waitTimeAnnotation, waitTime.toJson)
       }
     }
 

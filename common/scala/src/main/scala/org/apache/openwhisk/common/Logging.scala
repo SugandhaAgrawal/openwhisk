@@ -383,6 +383,8 @@ object LoggingMarkers {
     if (TransactionId.metricsKamonTags)
       LogMarkerToken(invoker, s"startup", counter, None, Map("invoker_id" -> i.toString))(MeasurementUnit.none)
     else LogMarkerToken(invoker, s"startup$i", counter)(MeasurementUnit.none)
+  //def INVOKER_WAIT_TIME(time: Long) = LogMarkerToken(invoker, s"waitTime$time", counter)(MeasurementUnit.none)
+  def INVOKER_WAIT_TIME(time: Long) = LogMarkerToken(invoker, "waitTime", counter)(MeasurementUnit.none)
 
   // Check invoker healthy state from loadbalancer
   def LOADBALANCER_INVOKER_STATUS_CHANGE(state: String) =
@@ -411,6 +413,9 @@ object LoggingMarkers {
     else
       LogMarkerToken(loadbalancer + controllerInstance.asString, s"memory${actionType}Inflight", counter)(
         MeasurementUnit.none)
+  val LOADBALANCER_RESULT_ACK = LogMarkerToken(loadbalancer, "result_ack", counter)(MeasurementUnit.none)
+  val LOADBALANCER_COMPLETION_ACK = LogMarkerToken(loadbalancer, "completion_ack", counter)(MeasurementUnit.none)
+  val LOADBALANCER_FORCED_ACK = LogMarkerToken(loadbalancer, "forced_ack", counter)(MeasurementUnit.none)
 
   // Time that is needed to execute the action
   val INVOKER_ACTIVATION_RUN =
