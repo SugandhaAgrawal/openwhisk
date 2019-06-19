@@ -739,7 +739,7 @@ object ContainerProxy {
         // sequence, a client can determine the queue time for sequences that way
         val end = initInterval.map(_.start).getOrElse(totalInterval.start)
         val waitTime = Interval(job.msg.transid.meta.start, end).duration.toMillis
-        LoggingMarkers.INVOKER_WAIT_TIME(waitTime)
+        MetricEmitter.emitHistogramMetric(LoggingMarkers.INVOKER_WAIT_TIME, waitTime)
         Parameters(WhiskActivation.waitTimeAnnotation, waitTime.toJson)
       }
     }

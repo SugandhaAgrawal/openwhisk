@@ -223,12 +223,14 @@ abstract class CommonLoadBalancer(config: WhiskConfig,
                                                 invoker: InvokerInstanceId): Unit = {
 
     val invocationResult = if (forced) {
+      //For forced Ack metric record
       MetricEmitter.emitCounterMetric(LoggingMarkers.LOADBALANCER_FORCED_ACK)
       InvocationFinishedResult.Timeout
     } else {
       // If the response contains a system error, report that, otherwise report Success
       // Left generally is considered a Success, since that could be a message not fitting into Kafka
       if (isSystemError) {
+        MetricEmitter.emitCounterMetric(LoggingMarkers.LOADBALANCER_COMPLETION_ACK_SYSERR)
         InvocationFinishedResult.SystemError
       } else {
         MetricEmitter.emitCounterMetric(LoggingMarkers.LOADBALANCER_COMPLETION_ACK)
